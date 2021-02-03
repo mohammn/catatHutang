@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Freelancer - Start Bootstrap Theme</title>
+    <title>mn-belajarweb.blogspot.com</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="foto/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -21,8 +21,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top" id="namaSaya" onclick="tampilModal()">Start
-                Bootstrap</a>
+            <a class="navbar-brand js-scroll-trigger" href="#page-top" id="namaSaya">mn-belajarweb</a>
         </div>
     </nav>
     <!-- Portfolio Section-->
@@ -32,7 +31,8 @@
             <h2 class="page-section-heading text-center text-secondary mb-0">Catatan Hutang :</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
-                <button class="btn btn-info" onclick="tampilModal()">Tambah Data Hutang</button>
+                <button class="btn btn-info" onclick="tampilModal()" id="tambahHutang" style="display: none;">Tambah
+                    Data Hutang</button>
             </div>
             <!-- Portfolio Grid Items-->
             <div class="row justify-content-center">
@@ -218,20 +218,20 @@
             $("#copyright").html(localStorage.getItem("namaSaya") + " " + date.getFullYear())
         }
 
-        //localStorage.setItem("data", "Bawang+cabin.png=Cabe+cake.png=Tomat+safe.png");
-        if (localStorage.getItem("pass")) {
+        //localStorage.setItem("dataHutang", "Bawang+cabin.png=Cabe+cake.png=Tomat+safe.png");
+        if (localStorage.getItem("passHutang")) {
             $("#loginModal").modal("show")
         } else {
             $("#daftarModal").modal("show")
         }
 
         function tampilkanDataAwal() {
-            var data = localStorage.getItem("data");
+            var data = localStorage.getItem("dataHutang");
             data = data.split("=+=");
             var pemisah = '';
             var hasil = "";
 
-            if (localStorage.getItem("data")) {
+            if (localStorage.getItem("dataHutang")) {
                 for (let i = 0; i < data.length; i++) {
                     pemisah = data[i].split('+-+');
                     hasil += '<tr><td>' + (i + 1) + '</td><td>' + pemisah[0] + '</td><td>Rp. ' + formatRupiah(pemisah[1].toString()) + '</td><td>' + pemisah[2] + '</td><td><button class="btn btn-danger" onClick="hapusData(' + i + ')">x</button></td></tr>';
@@ -247,7 +247,7 @@
         function daftarAdmin() {
             if ($("#pass").val() == $("#confirPass").val()) {
                 $("#pesanErrDaftarAdmin").html("")
-                localStorage.setItem("pass", $("#pass").val())
+                localStorage.setItem("passHutang", $("#pass").val())
 
                 $("#daftarModal").modal("hide")
             } else {
@@ -255,14 +255,17 @@
             }
         }
         function login() {
-            if ($("#loginPass").val() == localStorage.getItem("pass")) {
+            if ($("#loginPass").val() == localStorage.getItem("passHutang")) {
                 $("#loginPass").val("")
                 $("#loginModal").modal("hide")
                 tampilkanDataAwal()
                 if (localStorage.getItem("namaSaya")) {
                     $("#isianNama").val(localStorage.getItem("namaSaya"))
                 }
-                $("#ubahPass").val(localStorage.getItem("pass"))
+
+                $("#tombolTambah").show()
+                $("#namaSaya").attr("onclick", "tampilModal()")
+                $("#ubahPass").val(localStorage.getItem("passHutang"))
                 $("#pesanErrLogin").html("")
             } else {
                 $("#pesanErrLogin").html("Password tidak cocok")
@@ -271,7 +274,7 @@
 
         function ubahPengaturan() {
             if ($("#ubahPass").val() == $("#confirUbahPass").val()) {
-                localStorage.setItem("pass", $("#ubahPass").val())
+                localStorage.setItem("passHutang", $("#ubahPass").val())
                 localStorage.setItem("namaSaya", $("#isianNama").val())
                 $("#namaSaya").html(localStorage.getItem("namaSaya"))
                 $("#pesanErrUbahPengaturan").html("")
@@ -282,7 +285,7 @@
         }
 
         function hapusData(id) {
-            var data = localStorage.getItem("data");
+            var data = localStorage.getItem("dataHutang");
             data = data.split("=+=");
             var hasil = "";
             for (let i = 0; i < data.length; i++) {
@@ -296,7 +299,7 @@
                 hasilAkhir += hasil[j];
                 if (j < (hasil.length - 2)) { hasilAkhir += "=+=" }
             }
-            localStorage.setItem("data", hasilAkhir)
+            localStorage.setItem("dataHutang", hasilAkhir)
             //console.log(hasil)
             tampilkanDataAwal()
         }
@@ -306,12 +309,12 @@
             var jumlah = $("#jumlahUang").val()
             var jatuhTempo = $("#jatuhTempo").val()
 
-            var dataLama = localStorage.getItem("data");
+            var dataLama = localStorage.getItem("dataHutang");
             var dataBaru = nama + "+-+" + jumlah + "+-+" + jatuhTempo;
             if (dataLama) {
                 dataBaru = "=+=" + dataBaru;
             }
-            localStorage.setItem("data", dataLama + dataBaru);
+            localStorage.setItem("dataHutang", dataLama + dataBaru);
             $("#namaPeminjam").val("");
             $("#jumlahUang").val("");
             $("#jatuhTempo").val("");
